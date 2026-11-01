@@ -54,3 +54,16 @@ models:
           - not_null
       - name: SALES_AMOUNT
         description: "Quantity multiplied by unit price."
+
+  - name: stg_employee_certifications
+    description: >
+      Staging model for employee certifications.
+      Parses certification name, cost, and awarded date
+      from the certification_json field.
+
+  - name: fact_certification
+    description: >
+      Employee certification fact table.
+      Each row represents one certification awarded to an employee
+      on a particular date. Includes employee and date keys,
+      certification name, and certification cost.
