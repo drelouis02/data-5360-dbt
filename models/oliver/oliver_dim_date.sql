@@ -1,17 +1,24 @@
-
 {{ config(materialized='table') }}
 
-SELECT DISTINCT
-    ORDER_DATE AS DATE_KEY,
-    ORDER_DATE AS FULL_DATE,
-    YEAR(ORDER_DATE) AS YEAR,
-    QUARTER(ORDER_DATE) AS QUARTER,
-    MONTH(ORDER_DATE) AS MONTH,
-    MONTHNAME(ORDER_DATE) AS MONTH_NAME,
-    DAY(ORDER_DATE) AS DAY,
-    DAYNAME(ORDER_DATE) AS DAY_NAME,
-    DAYOFWEEKISO(ORDER_DATE) AS DAY_OF_WEEK
+with all_dates as (
+    select order_date::date as full_date
+    from {{ source('oliver', 'orders') }}
 
-FROM {{ source('oliver', 'orders') }}
+    union
 
-WHERE ORDER_DATE IS NOT NULL
+    select certification_awarded_date::date as full_date
+    from {{ ref('stg_employee_certifications') }}
+)
+
+select
+    full_date as date_key,
+    full_date,
+    year(full_date) as year,
+    quarter(full_date) as quarter,
+    month(full_date) as month,
+    monthname(full_date) as month_name,
+    day(full_date) as day,
+    dayname(full_date) as day_name,
+    dayofweekiso(full_date) as day_of_week
+from all_dates
+where full_date is not null
