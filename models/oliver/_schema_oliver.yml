@@ -1,0 +1,56 @@
+
+version: 2
+
+models:
+  - name: oliver_dim_customer
+    description: "Customer dimension for Oliver's."
+    columns:
+      - name: CUSTOMER_ID
+        data_tests:
+          - unique
+          - not_null
+
+  - name: oliver_dim_date
+    description: "Date dimension for sales analysis."
+    columns:
+      - name: DATE_KEY
+        data_tests:
+          - unique
+          - not_null
+
+  - name: oliver_dim_employee
+    description: "Employee dimension for Oliver's."
+    columns:
+      - name: EMPLOYEE_ID
+        data_tests:
+          - unique
+          - not_null
+
+  - name: oliver_dim_product
+    description: "Product dimension for Oliver's."
+    columns:
+      - name: PRODUCT_ID
+        data_tests:
+          - unique
+          - not_null
+
+  - name: oliver_dim_store
+    description: "Store dimension for Oliver's."
+    columns:
+      - name: STORE_ID
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fact_sales
+    description: "Sales fact table at the order-line level."
+    columns:
+      - name: ORDER_LINE_ID
+        data_tests:
+          - unique
+          - not_null
+      - name: ORDER_ID
+        data_tests:
+          - not_null
+      - name: SALES_AMOUNT
+        description: "Quantity multiplied by unit price."
