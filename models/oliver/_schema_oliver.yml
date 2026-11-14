@@ -17,7 +17,6 @@ models:
         data_tests:
           - unique
           - not_null
-
   - name: oliver_dim_employee
     description: "Employee dimension for Oliver's."
     columns:
@@ -26,6 +25,16 @@ models:
           - unique
           - not_null
 
+      - name: POSITION
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - "Cashier"
+                  - "Customer Service"
+                  - "Manager"
+                  - "Sales Associate"
+                  - "Stock Clerk"
   - name: oliver_dim_product
     description: "Product dimension for Oliver's."
     columns:
@@ -54,6 +63,12 @@ models:
           - not_null
       - name: SALES_AMOUNT
         description: "Quantity multiplied by unit price."
+      - name: CUSTOMER_ID
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('oliver_dim_customer')
+                field: CUSTOMER_ID
 
   - name: stg_employee_certifications
     description: >
